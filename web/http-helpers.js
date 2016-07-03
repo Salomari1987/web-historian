@@ -11,9 +11,18 @@ exports.headers = {
 };
 
 exports.serveAssets = function(res, asset, callback) {
-  // Write some code here that helps serve up your static files!
-  // (Static files are things like html (yours or archived from others...),
-  // css, or anything that doesn't change often.)
+  var filePath;
+  if(asset === '/'){
+    filePath = path.join(archive.paths.siteAssets, 'index.html');
+  } else {
+    filePath = path.join(archive.paths.archivedSites, asset);
+  }
+  fs.readFile(filePath,'utf8', function(err,data){
+      if(err){
+        callback(404, '404 file not found')
+      }
+      callback(200, data)
+    })
 };
 
   // Write some code here that helps serve up your static files!
